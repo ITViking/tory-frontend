@@ -8,7 +8,8 @@ import {
 function App() {
   return (
     <div className='App'>
-      <h1>Tory</h1>
+      <h1>Box 1</h1>
+      <h2>Indholdsfortegnelse</h2>
       <UnorderedList spacing={2}>
         <ListItem>En ting</ListItem>
         <ListItem>En ting 2</ListItem>
