@@ -5,17 +5,23 @@ import {
   OrderedList,
   Box,
   Input
-} from '@chakra-ui/react'
+} from '@chakra-ui/react';
+import axios from "axios";
 
 function App() {
   const [listEntry, setListEntry] = useState('');
   const [newOne, setNewOne] = useState("");
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => setListEntry(event.target.value);
-  const handleKeyDown = (event: KeyboardEvent) => {
+  
+  const saveItem = async (item: any) => {
+    await axios.post("http://localhost:5000/item", item);
+  };
+  const handleKeyDown = async (event: KeyboardEvent) => {
     if(event.key === "Enter") {
       setNewOne(listEntry);
-      setListEntry("")
+      setListEntry("");
+      await saveItem(listEntry);
     }
   }
   return (
