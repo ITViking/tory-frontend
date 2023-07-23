@@ -15,19 +15,22 @@ interface Item {
 }
 
 function App() {
-  const [listEntry, setListEntry] = useState('');
-  const [newOne, setNewOne] = useState("");
+  const [itemList, setItemList] = useState(Array<Item>);
+  const [newItem, setNewItem] = useState("");
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => setListEntry(event.target.value);
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => setNewItem(event.target.value);
   
   const saveItem = async (item: any) => {
-    await axios.post("http://localhost:5000/item", item);
+    await axios.post("http://localhost:5000/container/1/item", item);
   };
   const handleKeyDown = async (event: KeyboardEvent) => {
     if(event.key === "Enter") {
-      setNewOne(listEntry);
-      setListEntry("");
-      await saveItem(listEntry);
+      await saveItem(newItem);
+      setItemList([
+        ...itemList,
+        { name: newItem, id: nextId++ }
+      ])
+      setNewItem("");
     }
   }
   return (
@@ -36,7 +39,7 @@ function App() {
       <h2>Indholdsfortegnelse</h2>
       <ContainerList items={itemList} />
       <Input
-        value={listEntry}
+        value={newItem}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
         placeholder='Tilføj ting til listen'
