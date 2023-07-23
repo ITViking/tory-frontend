@@ -1,12 +1,18 @@
 import { ChangeEvent, KeyboardEvent, useState } from 'react';
 import './App.css';
 import {
-  ListItem,
-  OrderedList,
   Box,
   Input
 } from '@chakra-ui/react';
 import axios from "axios";
+import { ContainerList } from "./ContainerList";
+
+let nextId = 0;
+
+interface Item {
+  id: number,
+  name: string,
+}
 
 function App() {
   const [listEntry, setListEntry] = useState('');
@@ -28,13 +34,7 @@ function App() {
     <Box className='App' p={5}>
       <h1>Box 1</h1>
       <h2>Indholdsfortegnelse</h2>
-      <OrderedList spacing={2}>
-        <ListItem>En ting</ListItem>
-        <ListItem>En ting 2</ListItem>
-        <ListItem>En ting mere</ListItem>
-        <ListItem>{newOne}</ListItem>
-
-      </OrderedList>
+      <ContainerList items={itemList} />
       <Input
         value={listEntry}
         onChange={handleChange}
