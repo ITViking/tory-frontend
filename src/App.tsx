@@ -1,4 +1,4 @@
-import { ChangeEvent, KeyboardEvent, useState } from 'react';
+import { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
 import './App.css';
 import {
   Box,
@@ -23,6 +23,19 @@ function App() {
   const saveItem = async (item: any) => {
     await axios.post("http://localhost:5000/containers/1/items", item);
   };
+
+  const getItems = async () => {
+    const response = await axios.get("http://localhost:5000/containers/1/items");
+    return response.data;
+  };
+
+  useEffect(() => {
+    getItems()
+      .then((data) => {
+        setItemList([...data]);
+      })
+  },[]);
+
   const handleKeyDown = async (event: KeyboardEvent) => {
     if(event.key === "Enter") {
       await saveItem(newItem);
@@ -32,7 +45,8 @@ function App() {
       ])
       setNewItem("");
     }
-  }
+  };
+
   return (
     <Box className='App' p={5}>
       <h1>Box 1</h1>
