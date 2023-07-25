@@ -8,7 +8,7 @@ export function ContainerList({ items }: { items: Array<any>}) {
     <OrderedList spacing={2}>
       { 
         items.map((item: any)=> 
-          <ListItem key={item.id}>{ item.name }</ListItem>
+          <ListItem key={item.id} value={item.name}>{ item.name }</ListItem>
       )}
     </OrderedList>
   )
