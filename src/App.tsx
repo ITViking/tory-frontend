@@ -21,7 +21,7 @@ function App() {
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => setNewItem(event.target.value);
   
   const saveItem = async (item: any) => {
-    await axios.post("http://localhost:5000/container/1/item", item);
+    await axios.post("http://localhost:5000/containers/1/items", item);
   };
   const handleKeyDown = async (event: KeyboardEvent) => {
     if(event.key === "Enter") {
