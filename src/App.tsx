@@ -1,4 +1,4 @@
-import { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
+import { ChangeEvent, KeyboardEvent, useCallback, useEffect, useState } from 'react';
 import './App.css';
 import {
   Box,
@@ -21,27 +21,32 @@ function App() {
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => setNewItem(event.target.value);
   
   const saveItem = async (item: any) => {
-    await axios.post("http://localhost:5000/containers/1/items", item);
-  };
-
-  const getItems = async () => {
-    const response = await axios.get("http://localhost:5000/containers/1/items");
+    const response = await axios.post("http://localhost:5000/containers/1/items", { item });
     return response.data;
   };
+
+  const getItems = useCallback(async () => {
+    const response = await axios.get("http://localhost:5000/containers/1/items");
+    return response.data;
+  },
+  []);
 
   useEffect(() => {
     getItems()
       .then((data) => {
         setItemList([...data]);
       })
+      .catch((error) => {
+        console.error("error gettting inventory", error)
+      })
   },[]);
 
   const handleKeyDown = async (event: KeyboardEvent) => {
     if(event.key === "Enter") {
-      await saveItem(newItem);
+      const savedItem = await saveItem(newItem);
       setItemList([
         ...itemList,
-        { name: newItem, id: nextId++ }
+        savedItem
       ])
       setNewItem("");
     }
